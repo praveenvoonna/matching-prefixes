@@ -32,6 +32,7 @@ func main() {
 
 	input = input[:len(input)-1]
 
+	wg.Wait() // Wait for Load Prefixes goroutine to finish
 	// Use another goroutine to find the longest matching prefix
 	wg.Add(1)
 	go func() {

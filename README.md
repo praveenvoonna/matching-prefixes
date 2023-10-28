@@ -33,4 +33,4 @@ This Golang project demonstrates the efficient finding of the longest matching p
 
 ## Note
 
-Make sure to replace `./matching_prefixes` with the appropriate executable file name if you are not using Windows. This updated README provides clear instructions for installation, usage, and testing of the project.
+Make sure to replace `./matching_prefixes` with the appropriate executable file name if you are not using Windows.
