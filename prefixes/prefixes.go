@@ -9,7 +9,7 @@ import (
 var prefixMap map[string]bool
 var mutex = &sync.Mutex{}
 
-func LoadPrefixes(filename string) error {
+func LoadPrefixes(filename string, maxGoroutines int) error {
 	file, err := os.Open(filename)
 	if err != nil {
 		return err
@@ -19,12 +19,18 @@ func LoadPrefixes(filename string) error {
 	prefixMap = make(map[string]bool)
 	scanner := bufio.NewScanner(file)
 
+	semaphore := make(chan struct{}, maxGoroutines)
 	var wg sync.WaitGroup
+
 	for scanner.Scan() {
 		wg.Add(1)
 		prefix := scanner.Text()
+		semaphore <- struct{}{}
 		go func(p string) {
-			defer wg.Done()
+			defer func() {
+				wg.Done()
+				<-semaphore
+			}()
 			mutex.Lock()
 			prefixMap[p] = true
 			mutex.Unlock()

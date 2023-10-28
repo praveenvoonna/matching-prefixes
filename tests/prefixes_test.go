@@ -6,8 +6,10 @@ import (
 )
 
 func TestFindLongestPrefix(t *testing.T) {
+	var maxGoroutines int = 1000
+
 	// Load prefixes for testing
-	err := prefixes.LoadPrefixes("../prefixes.txt")
+	err := prefixes.LoadPrefixes("../prefixes.txt", maxGoroutines)
 	if err != nil {
 		t.Errorf("Error loading prefixes: %s", err)
 	}

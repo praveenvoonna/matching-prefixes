@@ -10,12 +10,13 @@ import (
 
 func main() {
 	var wg sync.WaitGroup
+	var maxGoroutines int = 1000
 
 	// Load prefixes using a goroutine
 	wg.Add(1)
 	go func() {
 		defer wg.Done()
-		err := prefixes.LoadPrefixes("prefixes.txt")
+		err := prefixes.LoadPrefixes("prefixes.txt", maxGoroutines)
 		if err != nil {
 			fmt.Println("Error loading prefixes from prefixes.txt file")
 		}
