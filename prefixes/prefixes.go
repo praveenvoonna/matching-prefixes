@@ -42,14 +42,15 @@ func LoadPrefixes(filename string, maxGoroutines int) error {
 
 func FindLongestPrefix(input string) string {
 	longestPrefix := ""
-	for i := 1; i <= len(input); i++ {
+	for i := len(input); i > 0; i-- {
 		substr := input[:i]
 		mutex.Lock()
 		_, ok := prefixMap[substr]
 		mutex.Unlock()
 		if ok {
 			longestPrefix = substr
+			return longestPrefix
 		}
 	}
-	return longestPrefix
+	return "sorry! no records found :("
 }
