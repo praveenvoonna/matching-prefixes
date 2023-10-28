@@ -32,7 +32,7 @@ func TestFindLongestPrefix(t *testing.T) {
 
 	// Test case 3: Test with no matching prefix
 	input = "apple"
-	expected = ""
+	expected = "sorry! no records found :("
 	result = prefixes.FindLongestPrefix(input)
 	if result != expected {
 		t.Errorf("Test 3 failed, expected: '%s', got: '%s'", expected, result)
@@ -40,7 +40,7 @@ func TestFindLongestPrefix(t *testing.T) {
 
 	// Test case 4 - Empty input
 	input = ""
-	expected = ""
+	expected = "sorry! no records found :("
 	result = prefixes.FindLongestPrefix(input)
 	if result != expected {
 		t.Errorf("Test 4 failed, expected: '%s', got: '%s'", expected, result)
@@ -48,7 +48,7 @@ func TestFindLongestPrefix(t *testing.T) {
 
 	// Test case 5
 	input = "abcdefghijklmnopqrstuvwxyz"
-	expected = ""
+	expected = "sorry! no records found :("
 	result = prefixes.FindLongestPrefix(input)
 	if result != expected {
 		t.Errorf("Test 5 failed, expected: '%s', got: '%s'", expected, result)
