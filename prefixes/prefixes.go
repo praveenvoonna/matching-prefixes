@@ -3,9 +3,11 @@ package prefixes
 import (
 	"bufio"
 	"os"
+	"sync"
 )
 
 var prefixMap map[string]bool
+var mutex = &sync.Mutex{}
 
 func LoadPrefixes(filename string) error {
 	file, err := os.Open(filename)
@@ -16,10 +18,19 @@ func LoadPrefixes(filename string) error {
 
 	prefixMap = make(map[string]bool)
 	scanner := bufio.NewScanner(file)
+
+	var wg sync.WaitGroup
 	for scanner.Scan() {
+		wg.Add(1)
 		prefix := scanner.Text()
-		prefixMap[prefix] = true
+		go func(p string) {
+			defer wg.Done()
+			mutex.Lock()
+			prefixMap[p] = true
+			mutex.Unlock()
+		}(prefix)
 	}
+	wg.Wait()
 	return scanner.Err()
 }
 
@@ -27,7 +38,10 @@ func FindLongestPrefix(input string) string {
 	longestPrefix := ""
 	for i := 1; i <= len(input); i++ {
 		substr := input[:i]
-		if _, ok := prefixMap[substr]; ok {
+		mutex.Lock()
+		_, ok := prefixMap[substr]
+		mutex.Unlock()
+		if ok {
 			longestPrefix = substr
 		}
 	}
